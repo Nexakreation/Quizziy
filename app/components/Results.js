@@ -36,14 +36,13 @@ export default function Results({ quizData, answers, onRestart }) {
             </div>
           ))}
         </div>
-        <a href="">
-          <button
-            className="mt-6 md:mt-8 w-full bg-[#ff6366] hover:bg-[#de283b] text-black hover:text-white font-extrabold py-2 md:py-3 px-4 md:px-6 rounded-2xl border-[3px] border-black transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-sm md:text-base"
-          >
-            <span>Start New Quiz</span>
-            <span className="text-lg md:text-xl">🚀</span>
-          </button>
-        </a>
+        <button
+          onClick={onRestart}
+          className="mt-6 md:mt-8 w-full bg-[#ff6366] hover:bg-[#de283b] text-black hover:text-white font-extrabold py-2 md:py-3 px-4 md:px-6 rounded-2xl border-[3px] border-black transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-sm md:text-base"
+        >
+          <span>Start New Quiz</span>
+          <span className="text-lg md:text-xl">🚀</span>
+        </button>
       </div>
     )
   }

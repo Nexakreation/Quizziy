@@ -25,10 +25,7 @@ export default function Home() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [userAnswers, setUserAnswers] = useState<string[]>([])
   const [showResults, setShowResults] = useState(false)
-  const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [language, setLanguage] = useState('English')
-  const [difficulty, setDifficulty] = useState('Easy')
   const [timePerQuestion, setTimePerQuestion] = useState(60)
   const [timeLeft, setTimeLeft] = useState(0)
 
@@ -55,10 +52,6 @@ export default function Home() {
 
   const handleQuizSubmit = async (topic: string, numQuestions: number, language: string, difficulty: string, timePerQuestion: number) => {
     setIsLoading(true)
-    setError(null)
-    setLanguage(language)
-    setDifficulty(difficulty)
-    setTimePerQuestion(timePerQuestion)
     try {
       console.log(`Submitting quiz request for topic: ${topic}, questions: ${numQuestions}, quiz language: ${language}, difficulty of questions: ${difficulty}, time per question: ${timePerQuestion}`);
       const response = await fetch('/api/generate-quiz', {
@@ -80,7 +73,7 @@ export default function Home() {
       setTimeLeft(timePerQuestion)
     } catch (err: unknown) {
       console.error('Error in quiz generation:', err);
-      setError(err instanceof Error ? err.message : String(err));
+      alert('Failed to generate quiz. Please try again.');
       setQuizData(null)
     } finally {
       setIsLoading(false)
@@ -102,7 +95,6 @@ export default function Home() {
     setCurrentQuestion(0)
     setUserAnswers([])
     setShowResults(false)
-    setError(null)
   }
 
   return (
@@ -115,8 +107,6 @@ export default function Home() {
         <QuizForm 
           onSubmit={handleQuizSubmit} 
           popularTopics={popularTopics}
-          setLanguage={setLanguage}
-          setDifficulty={setDifficulty}
           setTimePerQuestion={setTimePerQuestion}
           isLoading={isLoading}  // Add this line
         />

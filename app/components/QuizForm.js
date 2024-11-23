@@ -153,24 +153,3 @@ export default function QuizForm({ onSubmit, popularTopics, setLanguage, setDiff
         </div>
     )
 }
-
-// Add this CSS at the bottom of the file or in your global styles
-const styles = `
-    @media (max-width: 1024px) {
-        .animate-bounce {
-            animation-duration: 0.8s;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .popular-topics {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 640px) {
-        input, select {
-            font-size: 16px; /* Prevents zoom on mobile */
-        }
-    }
-`;
