@@ -75,7 +75,6 @@ export default function Home() {
       setTimeLeft(timePerQuestion)
     } catch (err: unknown) {
       console.error('Error in quiz generation:', err);
-      alert('Failed to generate quiz. Please try again.');
       setQuizData(null)
     } finally {
       setIsLoading(false)
