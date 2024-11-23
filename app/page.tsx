@@ -107,7 +107,7 @@ export default function Home() {
 
   return (
     <main className="container mx-auto px-4 py-8">
-      <h1 className="text-6xl font-extrabold text-center mb-4 bg-gradient-to-r from-[#ff6366] to-[#71c4ef] text-transparent bg-clip-text animate-pulse hover:scale-105 transform transition-transform duration-300 drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)] pb-4">
+      <h1 className="text-3xl md:text-6xl font-extrabold text-center mb-4 bg-gradient-to-r from-[#ff6366] to-[#71c4ef] text-transparent bg-clip-text animate-pulse hover:scale-105 transform transition-transform duration-300 drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)] pb-4">
         🎯 Ultimate Quiz Challenge 🎮
       </h1>
 

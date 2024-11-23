@@ -19,29 +19,28 @@ export default function QuizForm({ onSubmit, popularTopics, setLanguage, setDiff
     }
 
     return (
-        <div className="bg-[#1f2b3e] border-[2px] border-black p-6 rounded-3xl shadow-md flex gap-5 relative">
+        <div className="bg-[#1f2b3e] border-[2px] border-black p-3 md:p-6 rounded-3xl shadow-md flex flex-col lg:flex-row gap-5 relative">
             {/* Add loading overlay */}
             {isLoading && (
                 <div className="absolute inset-0 bg-black/50 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center z-50">
                     <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-[#ff6366] mb-4"></div>
                     <div className="relative">
-                        <h2 className="text-3xl font-bold text-white mb-2 animate-pulse text-center">
+                        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2 animate-pulse text-center">
                             Generating Quiz
                         </h2>
                         <div className="flex gap-1 justify-center">
-                            <span className="animate-bounce text-[#ff6366] text-2xl delay-0">.</span>
-                            <span className="animate-bounce text-[#ff6366] text-2xl delay-150">.</span>
-                            <span className="animate-bounce text-[#ff6366] text-2xl delay-300">.</span>
+                            <span className="animate-bounce text-[#ff6366] text-xl md:text-2xl delay-0">.</span>
+                            <span className="animate-bounce text-[#ff6366] text-xl md:text-2xl delay-150">.</span>
+                            <span className="animate-bounce text-[#ff6366] text-xl md:text-2xl delay-300">.</span>
                         </div>
-                        <p className="text-gray-300 mt-4 text-center max-w-md">
+                        <p className="text-gray-300 mt-4 text-center max-w-md text-sm md:text-base">
                             Our AI is crafting challenging questions just for you!
                         </p>
                     </div>
                 </div>
             )}
-            <div className="flex justify-center items-center bg-black w-[336px] rounded-3xl">
+            <div className="flex justify-center items-center bg-black w-full lg:w-[336px] rounded-3xl">
                 <Image 
-                    // src='https://media.tenor.com/YWeyHPggz28AAAAj/excited-cute.gif' 
                     src='https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjhlMWQ3a2dzc2dteDN6cnA5bWxtYXlwcHlyZHBrc3MzM3h0c3NxbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RkwsqDW9E8mX71AF5s/giphy.gif' 
                     alt='Excited Cute'
                     className='rounded-2xl' 
@@ -49,7 +48,7 @@ export default function QuizForm({ onSubmit, popularTopics, setLanguage, setDiff
                     height={320} 
                 />
             </div>
-            <div className="block w-1/3">
+            <div className="block w-full lg:w-1/3">
                 <form onSubmit={handleSubmit} className="space-y-4 block">
                     <div>
                         <label htmlFor="topic" className="block text-sm font-medium text-white">
@@ -87,7 +86,7 @@ export default function QuizForm({ onSubmit, popularTopics, setLanguage, setDiff
                     </button>
                 </form>
                 <div className="mt-6">
-                    <h3 className="text-lg font-medium text-white">Popular Topics</h3>
+                    <h3 className="text-base md:text-lg font-medium text-white">Popular Topics</h3>
                     <div className="mt-2 flex flex-wrap gap-2">
                         {popularTopics.map((popularTopic) => (
                             <button
@@ -101,8 +100,8 @@ export default function QuizForm({ onSubmit, popularTopics, setLanguage, setDiff
                     </div>
                 </div>
             </div>
-            <div className="w-1/3 rounded-lg shadow-md">
-                <h3 className="text-lg font-medium text-gray-800 mb-4">Quiz Settings</h3>
+            <div className="w-full lg:w-1/3 rounded-lg shadow-md">
+                <h3 className="text-base md:text-lg font-medium text-gray-800 mb-4">Quiz Settings</h3>
                 <div className="space-y-4">
                     <div>
                         <label htmlFor="language" className="block text-sm font-medium text-white">
@@ -154,3 +153,24 @@ export default function QuizForm({ onSubmit, popularTopics, setLanguage, setDiff
         </div>
     )
 }
+
+// Add this CSS at the bottom of the file or in your global styles
+const styles = `
+    @media (max-width: 1024px) {
+        .animate-bounce {
+            animation-duration: 0.8s;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .popular-topics {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 640px) {
+        input, select {
+            font-size: 16px; /* Prevents zoom on mobile */
+        }
+    }
+`;
