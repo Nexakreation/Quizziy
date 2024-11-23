@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import QuizForm from './components/QuizForm'
 import QuizQuestion from './components/QuizQuestion'
 import Results from './components/Results'
@@ -18,11 +18,6 @@ interface QuizData {
     language: string;
     timePerQuestion: number;
   };
-}
-
-interface ResultsProps {
-  quizData: QuizData;
-  answers: string[];
 }
 
 export default function Home() {
@@ -45,60 +40,56 @@ export default function Home() {
     'Pop Culture'
   ]
 
-  const handleAnswer = (answer: string) => {
-    setUserAnswers([...userAnswers, answer])
+  const handleAnswer = useCallback((answer: string) => {
+    setUserAnswers(prev => [...prev, answer])
     if (quizData && currentQuestion < quizData.questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1)
-      setTimeLeft(timePerQuestion) // Reset timer for next question
+      setCurrentQuestion(prev => prev + 1)
+      setTimeLeft(timePerQuestion)
     } else {
       setShowResults(true)
     }
-  }
+  }, [currentQuestion, quizData, timePerQuestion])
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (quizData && !showResults && timeLeft > 0) {
       timer = setTimeout(() => {
-        setTimeLeft(timeLeft - 1);
+        setTimeLeft(prev => prev - 1);
       }, 1000);
     } else if (timeLeft === 0 && quizData) {
       handleAnswer('Timed Out');
     }
     return () => clearTimeout(timer);
-  }, [timeLeft, quizData, showResults, timePerQuestion, currentQuestion]);
+  }, [timeLeft, quizData, showResults, handleAnswer]);
 
-  const handleQuizSubmit = async (topic: string, numQuestions: number, quizLanguage: string, quizDifficulty: string, timePerQuestion: number) => {
+  const handleQuizSubmit = async (topic: string, numQuestions: number, quizLanguage: string, quizDifficulty: string, quizTimePerQuestion: number) => {
     setIsLoading(true)
     try {
       setLanguage(quizLanguage)
       setDifficulty(quizDifficulty)
+      setTimePerQuestion(quizTimePerQuestion)
       
-      console.log(`Submitting quiz request for topic: ${topic}, questions: ${numQuestions}, quiz language: ${quizLanguage}, difficulty of questions: ${quizDifficulty}, time per question: ${timePerQuestion}`);
       const response = await fetch('/api/generate-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           topic, 
           numQuestions, 
-          language: quizLanguage, 
-          difficulty: quizDifficulty, 
-          timePerQuestion 
+          language: quizLanguage,
+          difficulty: quizDifficulty,
+          timePerQuestion: quizTimePerQuestion 
         }),
       })
       const data = await response.json()
-      if (!response.ok) {
-        throw new Error(JSON.stringify(data))
-      }
-      if (!data.questions || data.questions.length === 0) {
-        throw new Error('No questions generated')
-      }
-      console.log('Quiz data received:', data);
+      if (!response.ok) throw new Error(JSON.stringify(data))
+      if (!data.questions?.length) throw new Error('No questions generated')
+      
       setQuizData(data)
       setCurrentQuestion(0)
       setUserAnswers([])
-      setTimeLeft(timePerQuestion)
+      setTimeLeft(quizTimePerQuestion)
     } catch (err: unknown) {
-      console.error('Error in quiz generation:', err);
+      console.error('Error in quiz generation:', err)
       setQuizData(null)
     } finally {
       setIsLoading(false)
