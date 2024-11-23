@@ -20,6 +20,11 @@ interface QuizData {
   };
 }
 
+interface ResultsProps {
+  quizData: QuizData;
+  answers: string[];
+}
+
 export default function Home() {
   const [quizData, setQuizData] = useState<QuizData | null>(null)
   const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -151,7 +156,6 @@ export default function Home() {
         <Results
           answers={userAnswers}
           quizData={quizData}
-          onRestart={restartQuiz}
         />
       )}
     </main>
