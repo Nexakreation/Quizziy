@@ -12,12 +12,12 @@ export default function QuizQuestion({ question, onAnswer, currentQuestion, tota
 
     return (
         <div className="bg-[#1f2b3e] p-4 md:p-8 shadow-2xl rounded-3xl border-[3px] border-black w-full md:w-2/3 justify-center items-center mx-auto transform hover:scale-[1.02] transition-all duration-300">
-            <div className="relative mb-4 md:mb-8">
-                <h2 className="text-xl md:text-3xl font-extrabold text-[#7FB3D5] tracking-wider animate-pulse">
+            <div className="relative mb-4">
+                <h2 className="text-lg font-bold text-[#7FB3D5]">
                     {question.question}
                 </h2>
-                <div className="absolute -top-4 -right-4 w-12 h-12 md:w-16 md:h-16 bg-[#ff6366] rounded-full flex items-center justify-center transform rotate-12 border-2 border-black">
-                    <p className="text-lg md:text-xl font-bold text-black">{currentQuestion}/{totalQuestions}</p>
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#ff6366] rounded-full flex items-center justify-center transform rotate-12 border-2 border-black">
+                    <p className="text-sm font-bold text-black">{currentQuestion}/{totalQuestions}</p>
                 </div>
             </div>
             

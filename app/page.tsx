@@ -40,6 +40,16 @@ export default function Home() {
     'Pop Culture'
   ]
 
+  const handleAnswer = (answer: string) => {
+    setUserAnswers([...userAnswers, answer])
+    if (quizData && currentQuestion < quizData.questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1)
+      setTimeLeft(timePerQuestion) // Reset timer for next question
+    } else {
+      setShowResults(true)
+    }
+  }
+
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (quizData && !showResults && timeLeft > 0) {
@@ -50,16 +60,25 @@ export default function Home() {
       handleAnswer('Timed Out');
     }
     return () => clearTimeout(timer);
-  }, [timeLeft, quizData, showResults]);
+  }, [timeLeft, quizData, showResults, timePerQuestion, currentQuestion]);
 
-  const handleQuizSubmit = async (topic: string, numQuestions: number, language: string, difficulty: string, timePerQuestion: number) => {
+  const handleQuizSubmit = async (topic: string, numQuestions: number, quizLanguage: string, quizDifficulty: string, timePerQuestion: number) => {
     setIsLoading(true)
     try {
-      console.log(`Submitting quiz request for topic: ${topic}, questions: ${numQuestions}, quiz language: ${language}, difficulty of questions: ${difficulty}, time per question: ${timePerQuestion}`);
+      setLanguage(quizLanguage)
+      setDifficulty(quizDifficulty)
+      
+      console.log(`Submitting quiz request for topic: ${topic}, questions: ${numQuestions}, quiz language: ${quizLanguage}, difficulty of questions: ${quizDifficulty}, time per question: ${timePerQuestion}`);
       const response = await fetch('/api/generate-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, numQuestions, language, difficulty, timePerQuestion }),
+        body: JSON.stringify({ 
+          topic, 
+          numQuestions, 
+          language: quizLanguage, 
+          difficulty: quizDifficulty, 
+          timePerQuestion 
+        }),
       })
       const data = await response.json()
       if (!response.ok) {
@@ -78,16 +97,6 @@ export default function Home() {
       setQuizData(null)
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  const handleAnswer = (answer: string) => {
-    setUserAnswers([...userAnswers, answer])
-    if (quizData && currentQuestion < quizData.questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1)
-      setTimeLeft(timePerQuestion) // Reset timer for next question
-    } else {
-      setShowResults(true)
     }
   }
 
