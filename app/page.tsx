@@ -28,6 +28,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
   const [timePerQuestion, setTimePerQuestion] = useState(60)
   const [timeLeft, setTimeLeft] = useState(0)
+  const [language, setLanguage] = useState('English')
+  const [difficulty, setDifficulty] = useState('Easy')
 
   const popularTopics = [
     'World History',
@@ -107,8 +109,10 @@ export default function Home() {
         <QuizForm 
           onSubmit={handleQuizSubmit} 
           popularTopics={popularTopics}
+          setLanguage={setLanguage}
+          setDifficulty={setDifficulty}
           setTimePerQuestion={setTimePerQuestion}
-          isLoading={isLoading}  // Add this line
+          isLoading={isLoading}
         />
       )}
       {quizData && quizData.questions && quizData.questions.length > 0 && !showResults && (
