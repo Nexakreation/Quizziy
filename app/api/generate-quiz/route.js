@@ -32,7 +32,7 @@ export async function POST(request) {
         });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
     const prompt = `Generate a quiz about ${topic} with ${numQuestions} questions. The difficulty level should be ${difficulty}, and the questions should be in ${language}. For each question, provide 4 options and indicate the correct answer. Format the response as a JSON object with the following structure:
   {
